@@ -2,18 +2,20 @@
 
 import Vue from 'vue' //core do vue
 import App from './App.vue' //placeholder de toda aplicacao
+import vuetify from './plugins/vuetify'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-import VueResource from 'vue-resource' //chamada de apis
+import VueResource from 'vue-resource' //chamada de apis, poderia ser o axios
 import VueRouter from 'vue-router' //navegacao
 import { routes } from './routes'; //rotas para navegacao
 import store from './store' //vuex, gerenciamento global de estado
+import AsyncComputed from 'vue-async-computed' //Para permtir computed properties assíncronas
 
 Vue.use(BootstrapVue)
 Vue.use(VueResource)
 Vue.use(VueRouter)
-Vue.use(VueResource)
+Vue.use(AsyncComputed)
 
 const router = new VueRouter({ routes});
 
@@ -25,6 +27,7 @@ new Vue({
   el: '#app',
   store, //injeta a store para que todos os componentes tenham acesso
   router,
+  vuetify,
   render: h => h(App),
   created(){
     //para manter o token caso seja acionado reload no navegador
@@ -55,7 +58,7 @@ function manageProtectedEndPoints() {
     }
     if (to.fullPath === '/entrar') {
       if (store.getters.loggedIn) {
-        next('/noticias')
+        next('/home')
       }
     }
     next()

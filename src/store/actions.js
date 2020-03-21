@@ -7,7 +7,7 @@ export const ActionSetUser = (context, payload) => {
     console.log('ActionSetUser', payload)
     context.commit(types.SET_USER, payload) //atualiza state com dados
     localStorage.setItem(context.getters.cookieName, JSON.stringify(payload)) //cria o cookie
-    Vue.http.interceptors.push((request, next) => {
+    Vue.http.interceptors.push((request, next) => { //sempre colocar no header o token
         console.log('Atualizou token no header', payload.token)
         request.headers.set('Authorization', 'Bearer ' + payload.token)
         request.headers.set('Accept', 'application/json')

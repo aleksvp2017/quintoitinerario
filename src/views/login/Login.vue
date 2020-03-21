@@ -1,40 +1,36 @@
 <template>
-  <div>
-      <div align="center" class="center">
-      <b-card border-variant="info" 
-         header="Entre com seu e-mail e senha" class="text-center">
-      <b-form @submit.prevent="login">  
-        <b-form-input
-            id="email"
+  <v-app>
+    <v-card width="400px" class="mt-5 mx-auto">
+      <v-card-title class="pb-0">
+        <h1>Login</h1>
+      </v-card-title>
+      <v-card-text>
+        <v-form>
+          <v-text-field 
+            label="E-mail"
             v-model="credencial.email"
             type="email"
-            required
-            placeholder="Digite seu e-mail"
-        ></b-form-input>
-        <b-form-input
-            id="senha"
+            prepend-icon="mdi-account-circle"/>
+          <v-text-field 
+            :type="showPassword ? 'text' : 'password'" 
+            label="Senha"
             v-model="credencial.senha"
-            type="password"
-            required
-            placeholder="Digite sua senha"
-        ></b-form-input>  
-        <br/>
-        <div align="right">
-          <b-button pill variant="info" type="submit">Entrar</b-button>     
-        </div>
-        <p style="color: red; height: absolut;" >
-            {{ mensageDeErro }}
-        </p>
-        <div align="left" class="info" style="font-size: 12px">
-          <b-link to="/recuperarsenha" active-class="info">Esqueceu sua senha?</b-link>
-        </div>
-        <div>
-          
-        </div>        
-      </b-form>
-    </b-card>
-    </div>
-  </div>
+            prepend-icon="mdi-lock"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            @click:append="showPassword = !showPassword"/>
+        </v-form>
+      </v-card-text>
+      <v-alert :type="tipoAlerta" dense outlined dismissible v-model="mostrarAlerta">
+        {{alerta}}
+      </v-alert>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-btn color="success" @click="registrar">Registrar</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn color="info" @click="login">Entrar</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-app>
 </template>
 
 <script>
@@ -43,24 +39,34 @@
   export default {
     data() {
       return {
-          mensageDeErro: '',
+          mostrarAlerta: false,
+          alerta: '',
+          tipoAlerta: '',
           credencial :{
             email: '',
             senha: '',
-          }
+          },
+          showPassword: false
       }
     },
     methods : {
       ...mapActions(['ActionLogin']),
-      async login(){
-        this.mensageDeErro = ''
+      login(){
+        this.alerta = ''
         this.ActionLogin(this.credencial).then((response) => {
-          this.$router.push('noticias')
+          this.$router.push('home')
         }).catch (error => {
-          //console.log(error)
-          this.mensageDeErro = error.body.error
+          console.log(error)
+          this.alerta = error.body.error
+          this.tipoAlerta = "error"
+          this.mostrarAlerta = true
         })
       },
+      registrar(){
+        this.alerta = "Funcionalidade em desenvolvimento"
+        this.tipoAlerta = "info"
+        this.mostrarAlerta = true
+      }
     }
   }</script>
 

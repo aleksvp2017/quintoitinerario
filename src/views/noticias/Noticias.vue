@@ -20,14 +20,19 @@
     export default {
         data() {
             return {
-                noticias: [],
+                //noticias: [],
                 mensageDeErro: ''
             }
         },
         created () {
-            this.atualizarNoticias();
+            //this.atualizarNoticias();
         },
-        methods: {
+        asyncComputed: {
+            async noticias(){
+                return await obterNoticias()
+            }
+        }
+        /*methods: {
             atualizarNoticias() {
                 console.log('atualizando noticias')
                 listarNoticias().then((response) => {
@@ -38,7 +43,18 @@
                         console.log('erro: ', error)
                     })
             }
-        }
+        }*/
+    }
+
+    function obterNoticias(){
+        return listarNoticias().then(async (response) => {
+                        var noticias = response.data.noticias
+                        console.log('noticias: ', noticias)
+                        return await noticias
+                    }).catch((error) => {
+                        this.mensageDeErro = error.body
+                        console.log('erro: ', error)
+                    })
     }
 </script>
 
