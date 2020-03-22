@@ -1,5 +1,4 @@
 <template>
-  <v-app>
     <v-card width="400px" class="mt-5 mx-auto">
       <v-card-title class="pb-0">
         <h1>Login</h1>
@@ -30,7 +29,6 @@
         <v-btn color="info" @click="login">Entrar</v-btn>
       </v-card-actions>
     </v-card>
-  </v-app>
 </template>
 
 <script>
@@ -41,7 +39,7 @@
       return {
           mostrarAlerta: false,
           alerta: '',
-          tipoAlerta: '',
+          tipoAlerta: 'error',
           credencial :{
             email: '',
             senha: '',
@@ -56,7 +54,7 @@
         this.ActionLogin(this.credencial).then((response) => {
           this.$router.push('home')
         }).catch (error => {
-          console.log(error)
+          console.log('Error: ', error)
           this.alerta = error.body.error
           this.tipoAlerta = "error"
           this.mostrarAlerta = true
@@ -71,14 +69,4 @@
   }</script>
 
 <style>
-
-.center {
-  width: 20rem;
-  margin: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
 </style>

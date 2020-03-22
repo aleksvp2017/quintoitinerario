@@ -1,19 +1,23 @@
 <template>
-<div>
-  <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand to="/"><img src="../assets/home.png" width="25px" height="25px"/></b-navbar-brand>
-    <b-navbar-brand to="/entrar" v-show="!loggedIn">Entrar</b-navbar-brand>
-    <b-navbar-brand to="/home" v-show="loggedIn">Notícias</b-navbar-brand>
-    <b-button v-show="loggedIn" @click="logout" variant="light">Logout</b-button>
-  </b-navbar>
-</div>
+        <v-app-bar app color="primary" dark>
+            <v-toolbar-title></v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-btn text rounded v-for="(link, index) in links" :key="index"
+                :to="link.path"
+                v-show="(!link.requireAuth && !loggedIn) || (loggedIn && link.requireAuth) || link.alwaysShow"> {{link.name}} </v-btn>
+            <v-btn text rounded @click="logout" v-show="loggedIn">Logout</v-btn>
+        </v-app-bar>
 </template>
 
 <script>
     import { mapGetters } from 'vuex'
+    import { routes } from '../routes.js'
 
     export default {
         computed: {
+            links (){
+                return routes.filter(route => route.menuItem)
+            },
             ...
             mapGetters(['loggedIn'])
         },

@@ -6,10 +6,10 @@ import Noticias from './views/noticias/Noticias.vue'
 
 export const routes = [
 
-   { path: '/', component: Bemvindo},
-   { path: '/recuperarsenha', component: RecuperarSenha },
-   { path: '/entrar', component: Login },
-   { path: '/home', component: Noticias, requireAuth:true }
+   { path: '/', name: 'Home', component: Bemvindo, menuItem: true, alwaysShow: true},
+   { path: '/recuperarsenha', name: 'RecuperarSenha', component: RecuperarSenha, menuItem: false },
+   { path: '/entrar', name: 'Login', component: Login, menuItem: true },
+   { path: '/home', name: 'Noticias', component: Noticias, requireAuth:true, menuItem: true }
 
 ];
 

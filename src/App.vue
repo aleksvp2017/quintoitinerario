@@ -1,20 +1,25 @@
 <template>
-  <div>
+  <v-app>
     <navegacao/>
-    <router-view></router-view>
-  </div>
+    <v-content>
+      <router-view></router-view>
+    </v-content>
+    <rodape/>
+  </v-app>
 </template>
 
 <script>
 import Navegacao from './components/Navegacao.vue'
+import Rodape from './components/Rodape.vue'
 
 export default {
     components: {
       'navegacao': Navegacao,
+      'rodape': Rodape
     },    
   }
 </script>
 
-<style scoped>
+<style>
 
 </style>
