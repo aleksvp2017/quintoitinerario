@@ -33,6 +33,7 @@
 
 <script>
   import {mapActions} from 'vuex'
+  import { routes } from '../../routes.js'
 
   export default {
     data() {
@@ -52,7 +53,7 @@
       login(){
         this.alerta = ''
         this.ActionLogin(this.credencial).then((response) => {
-          this.$router.push('home')
+          this.$router.push(obterRota('Noticias'))
         }).catch (error => {
           console.log('Error: ', error)
           this.alerta = error.body.error
@@ -61,12 +62,24 @@
         })
       },
       registrar(){
-        this.alerta = "Funcionalidade em desenvolvimento"
+        console.log('Registrar')
+        this.$router.push(obterRota('Registrar'))
+        /*this.alerta = "Funcionalidade em desenvolvimento"
         this.tipoAlerta = "info"
-        this.mostrarAlerta = true
+        this.mostrarAlerta = true*/
       }
     }
-  }</script>
+  }
+  
+  
+  function obterRota(nome){
+    return routes.filter(router => router.name == nome)[0]
+  }
+  
+  
+  </script>
+
+
 
 <style>
 </style>

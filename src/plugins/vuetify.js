@@ -6,6 +6,18 @@ import 'vuetify/dist/vuetify.min.css'
 
 Vue.use(Vuetify)
 
-const opts = {}
+
+import ptbr from '../vuetify/locale/ptbr'
+
+const opts = {
+    lang: {
+        locales: {
+            ptbr
+        },
+        current: 'ptbr'
+      }
+}
+
+
 
 export default new Vuetify(opts)
