@@ -1,16 +1,16 @@
 function listarColunas(){
     return [
         {
-          text: 'Empresa',
+          text: 'EMPRESA',
           align: 'start',
           value: 'empresa',
         },
-        { text: 'Curso', value: 'curso' },
-        { text: 'Ocupações relacionadas', value: 'ocupacoes' },
-        { text: 'Duração do curso (h)', value: 'duracao' },
-        { text: 'Emite certificado', value: 'sncertificado' },
-        { text: 'Língua', value: 'lingua'},
-        { text: 'Site', value: 'link' },
+        { text: 'CURSO', value: 'curso' },
+        { text: 'OCUPAÇÕES RELACIONADAS', value: 'ocupacoes' },
+        { text: 'DURAÇÃO(H)', value: 'duracao' },
+        { text: 'CERTIFICADO', value: 'sncertificado' },
+        { text: 'LÍNGUA', value: 'lingua'},
+        { text: 'LINK', value: 'link', sortable: false },
       ]
 }
 

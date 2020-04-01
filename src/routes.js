@@ -13,7 +13,8 @@ export const routes = [
    { path: '/entrar', name: 'Entrar', component: Login, menuItem: true },
    { path: '/home', name: 'Noticias', component: Noticias, requireAuth:true, menuItem: true },
    { path: '/registrar', name: 'Registrar', component: Registrar, requireAuth: false, menuItem: false},
-   { path: '/cursos', name: 'Cursos', component: Cursos, requireAuth: false, menuItem: true, alwaysShow: true}
+   { path: '/cursos', name: 'Cursos', component: Cursos, requireAuth: true, menuItem: true},
+   //{ path: '/', name: 'Cursos', component: Cursos, menuItem: false}
 
 ];
 

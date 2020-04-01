@@ -1,6 +1,7 @@
 <template>
+        <!--<v-app-bar app color="#80CBC4" dark>-->
         <v-app-bar app color="primary" dark>
-            <v-toolbar-title></v-toolbar-title>
+            <v-toolbar-title><h2>Cursos EAD gratuitos</h2></v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn text rounded v-for="(link, index) in links" :key="index"
                 :to="link.path"
