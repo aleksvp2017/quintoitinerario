@@ -4,6 +4,22 @@ import VueResource from 'vue-resource'
 Vue.use(VueResource)
 const http = Vue.http
 
+function listarColunasNoticias(){
+    return [     
+        {
+          text: 'Título',
+          value: 'titulo',
+        },
+        {
+            text: 'Lida',
+            value: 'lida',
+        },
+        {
+            text: '',
+            value: 'data-table-expand',
+          },
+      ]
+}
 
 async function listarNoticias(){
     console.log('listar noticias em Noticias.js')
@@ -11,6 +27,6 @@ async function listarNoticias(){
 }
 
 export {
-    listarNoticias
+    listarNoticias, listarColunasNoticias
 }
 

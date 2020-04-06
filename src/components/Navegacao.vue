@@ -6,21 +6,75 @@
             <v-btn text rounded v-for="(link, index) in links" :key="index"
                 :to="link.path"
                 v-show="(!link.requireAuth && !loggedIn) || (loggedIn && link.requireAuth) || link.alwaysShow"> {{link.name}} </v-btn>
-            <v-btn text rounded @click="logout" v-show="loggedIn">Logout</v-btn>
+            
+            <!-- USER MENU -->
+            <v-menu offset-y
+                v-if="loggedIn"
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-width="200"
+                offset-x
+                >
+                <template v-slot:activator="{ on }">
+                    <v-btn color="primary" dark elevation="0" v-on="on" title="Oi">
+                        <v-icon dark right>mdi-account-circle</v-icon>
+                    </v-btn> 
+                </template>
+
+                <v-card>
+                    <v-list>
+                    <v-list-item>
+                        <v-list-item-avatar>
+                        <img src="https://cdn.vuetifyjs.com/images/john.jpg" alt="John">
+                        </v-list-item-avatar>
+                        <v-list-item-content>
+                        <v-list-item-title>{{user.nome}}</v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-action>
+                        <v-btn icon>
+                            <v-icon>mdi-account-circle</v-icon>
+                        </v-btn>
+                        </v-list-item-action>
+                    </v-list-item>
+                    </v-list>
+
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn text rounded @click="logout" v-show="loggedIn">Sair</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-menu>
+
         </v-app-bar>
 </template>
 
 <script>
-    import { mapGetters } from 'vuex'
+    import { mapGetters, mapState } from 'vuex'
     import { routes } from '../routes.js'
 
     export default {
+        data() {
+            return {
+                itensMenu:[
+                    {
+                        titulo: 'Aleksander Velozo Pascoal'
+                    },
+                    {
+                        titulo: 'Sair',
+                        acao: this.logout,
+                    },
+                ]       
+            }
+        },
         computed: {
             links (){
                 return routes.filter(route => route.menuItem)
             },
             ...
-            mapGetters(['loggedIn'])
+            mapGetters(['loggedIn']),
+            ...
+            mapState(['user'])
         },
         methods: {
             logout(){

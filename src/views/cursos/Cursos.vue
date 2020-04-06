@@ -40,7 +40,8 @@
   export default {
     data () {
       return {
-        busca: ''      }
+        busca: '',    
+      }
     },
     computed:{
         cursos(){
