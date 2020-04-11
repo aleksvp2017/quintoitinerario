@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
+import {BASE_BACKEND_URL} from './Constantes.js'
 
 Vue.use(VueResource)
 const http = Vue.http
@@ -8,11 +9,15 @@ const http = Vue.http
 async function login(credencial){
     let senhaHash = encripta(credencial.senha)
 
-    return  http.post('http://localhost:3001/login', {user: credencial.email, password: senhaHash})
+    return  http.post(BASE_BACKEND_URL + 'login', {usuario: credencial.email, senha: senhaHash})
+}
+
+async function recuperarSenha(email){
+    return  http.post(BASE_BACKEND_URL + 'recuperarSenha', {email: email})
 }
 
 export {
-    login
+    login, recuperarSenha, encripta
 }
 
 function encripta(senha) {

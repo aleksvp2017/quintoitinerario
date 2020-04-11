@@ -10,8 +10,7 @@
             <!-- USER MENU -->
             <v-menu offset-y
                 v-if="loggedIn"
-                v-model="menu"
-                :close-on-content-click="false"
+                :close-on-click="true"
                 :nudge-width="200"
                 offset-x
                 >
@@ -39,10 +38,20 @@
                     </v-list>
 
                     <v-divider></v-divider>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn text rounded @click="logout" v-show="loggedIn">Sair</v-btn>
-                    </v-card-actions>
+                    
+                    
+                        
+                        <v-list>
+                            <v-list-item>
+                                <v-btn text rounded  v-show="loggedIn"  :to="rotaUsuario">Dados pessoais</v-btn>
+                            </v-list-item>
+                            <v-list-item>
+                                <v-btn text rounded  v-show="loggedIn"  :to="rotaSenha">Alterar Senha</v-btn>
+                            </v-list-item>                            
+                            <v-list-item>
+                                <v-btn text rounded @click="logout" v-show="loggedIn">Sair</v-btn>
+                            </v-list-item>                            
+                        </v-list>
                 </v-card>
             </v-menu>
 
@@ -51,7 +60,7 @@
 
 <script>
     import { mapGetters, mapState } from 'vuex'
-    import { routes } from '../routes.js'
+    import { routes } from '../../routes.js'
 
     export default {
         data() {
@@ -71,6 +80,12 @@
             links (){
                 return routes.filter(route => route.menuItem)
             },
+            rotaUsuario(){
+                return routes.filter(route => route.name == 'Usuário')[0]
+            },
+            rotaSenha(){
+                return routes.filter(route => route.name == 'Alterar Senha')[0]
+            },            
             ...
             mapGetters(['loggedIn']),
             ...

@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import Navegacao from './components/Navegacao.vue'
-import Rodape from './components/Rodape.vue'
+import Navegacao from './views/navegacao/Navegacao.vue'
+import Rodape from './views/navegacao/Rodape.vue'
 
 export default {
     components: {

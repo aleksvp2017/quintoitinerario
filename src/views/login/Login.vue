@@ -13,6 +13,7 @@
           <v-text-field 
             :type="showPassword ? 'text' : 'password'" 
             label="Senha"
+            @keypress.enter="login"
             v-model="credencial.senha"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -26,6 +27,7 @@
       <v-card-actions>
         <v-btn color="success" @click="registrar">Registrar</v-btn>
         <v-spacer></v-spacer>
+        <v-btn :loading="loading" :disabled="loading" @click="recuperarSenha" color="warning">Recuperar senha</v-btn>
         <v-btn color="info" @click="login">Entrar</v-btn>
       </v-card-actions>
     </v-card>
@@ -34,18 +36,20 @@
 <script>
   import {mapActions} from 'vuex'
   import { routes } from '../../routes.js'
+  import {recuperarSenha} from '../../services/Autenticador'
 
   export default {
     data() {
       return {
-          mostrarAlerta: false,
-          alerta: '',
-          tipoAlerta: 'error',
-          credencial :{
-            email: '',
-            senha: '',
-          },
-          showPassword: false
+        loading: false,
+        mostrarAlerta: false,
+        alerta: '',
+        tipoAlerta: 'error',
+        credencial :{
+          email: '',
+          senha: '',
+        },
+        showPassword: false
       }
     },
     methods : {
@@ -61,6 +65,26 @@
           this.mostrarAlerta = true
         })
       },
+      recuperarSenha(){
+        if (!this.credencial.email){
+          this.alerta = 'Preencha o email',
+          this.tipoAlerta = 'error'
+          this.mostrarAlerta = true
+          return
+        }
+        this.loading = true
+        recuperarSenha(this.credencial.email).then(response => {
+          this.alerta = response.body.mensagem
+          this.tipoAlerta = 'info'
+          this.mostrarAlerta = true        
+          this.loading = false
+        }).catch( error => {
+          this.alerta = error.body.error
+          this.tipoAlerta = 'error'
+          this.mostrarAlerta = true                  
+          this.loading = false
+        })
+      },      
       registrar(){
         console.log('Registrar')
         this.$router.push(obterRota('Registrar'))
@@ -75,9 +99,8 @@
   function obterRota(nome){
     return routes.filter(router => router.name == nome)[0]
   }
-  
-  
-  </script>
+
+</script>
 
 
 

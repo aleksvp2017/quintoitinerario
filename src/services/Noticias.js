@@ -3,6 +3,7 @@ import VueResource from 'vue-resource'
 
 Vue.use(VueResource)
 const http = Vue.http
+import {BASE_BACKEND_URL} from './Constantes.js'
 
 function listarColunasNoticias(){
     return [     
@@ -23,7 +24,7 @@ function listarColunasNoticias(){
 
 async function listarNoticias(){
     console.log('listar noticias em Noticias.js')
-    return http.post('http://localhost:3001/noticias')
+    return http.post(BASE_BACKEND_URL + 'noticias')
 }
 
 export {
