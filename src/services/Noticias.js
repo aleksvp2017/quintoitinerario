@@ -18,16 +18,47 @@ function listarColunasNoticias(){
         {
             text: '',
             value: 'data-table-expand',
-          },
+          }
+      ]
+}
+
+function listarColunasNoticiasCrud(){
+    return [     
+        {
+            text: 'Data de publicação',
+            value: 'datapublicacao',
+          
+        },
+        {
+          text: 'Título',
+          value: 'titulo',
+        },
+        {
+            text: 'Conteúdo',
+            value: 'conteudo',
+        },
+        ,
+        {
+            text: 'Actions',
+            value: 'actions', 
+            sortable: false
+        }
       ]
 }
 
 async function listarNoticias(){
-    console.log('listar noticias em Noticias.js')
-    return http.post(BASE_BACKEND_URL + 'noticias')
+    return http.get(BASE_BACKEND_URL + 'noticias')
+}
+
+async function salvarNoticia(noticia){
+    return http.post(BASE_BACKEND_URL + 'noticias' + (noticia.id ? (':' + noticia.id) : ''), {noticia})
+}
+
+async function apagarNoticia(noticia){
+    return http.delete(`${BASE_BACKEND_URL}noticias/:${noticia.id}`, {noticia})
 }
 
 export {
-    listarNoticias, listarColunasNoticias
+    listarNoticias, listarColunasNoticias, listarColunasNoticiasCrud, salvarNoticia, apagarNoticia
 }
 

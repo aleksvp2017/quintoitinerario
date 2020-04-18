@@ -9,7 +9,6 @@ const http = Vue.http
 
 
 async function alterarSenha(usuario, senhaNova){
-    console.log('Usuario:', usuario, senhaNova)
     return  http.post(BASE_BACKEND_URL + 'usuario/alterarSenha', {...usuario, senha: encripta(usuario.senha), senhaNova: encripta(senhaNova)})
 }
 

@@ -19,7 +19,6 @@
         },
         methods: {
             logout(){
-                console.log('fazendo logout')
                 this.$store.dispatch('ActionLogout')
             }
         }

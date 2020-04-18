@@ -1,7 +1,14 @@
 <template>
         <!--<v-app-bar app color="#80CBC4" dark>-->
         <v-app-bar app color="primary" dark>
-            <v-toolbar-title><h2>Cursos EAD gratuitos</h2></v-toolbar-title>
+            <v-toolbar-title>
+                <h2>
+                    <v-btn color="primary" dark elevation="0" :to="rotaHome">
+                        <v-icon dark right>mdi-home</v-icon>
+                    </v-btn> 
+                    Plataforma do 5º Itinerário
+                </h2>
+            </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn text rounded v-for="(link, index) in links" :key="index"
                 :to="link.path"
@@ -15,7 +22,7 @@
                 offset-x
                 >
                 <template v-slot:activator="{ on }">
-                    <v-btn color="primary" dark elevation="0" v-on="on" title="Oi">
+                    <v-btn color="primary" dark elevation="0" v-on="on">
                         <v-icon dark right>mdi-account-circle</v-icon>
                     </v-btn> 
                 </template>
@@ -80,6 +87,9 @@
             links (){
                 return routes.filter(route => route.menuItem)
             },
+            rotaHome(){
+                return routes.filter(route => route.name == 'Home')[0]
+            },            
             rotaUsuario(){
                 return routes.filter(route => route.name == 'Usuário')[0]
             },
@@ -93,7 +103,6 @@
         },
         methods: {
             logout(){
-                console.log('fazendo logout')
                 this.$store.dispatch('ActionLogout')
             }
         }

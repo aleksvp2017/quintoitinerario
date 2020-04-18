@@ -3,21 +3,17 @@
 import Vue from 'vue' //core do vue
 import App from './App.vue' //placeholder de toda aplicacao
 import vuetify from './plugins/vuetify'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+//import BootstrapVue from 'bootstrap-vue'
+//import 'bootstrap/dist/css/bootstrap.css'
+//import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueResource from 'vue-resource' //chamada de apis, poderia ser o axios
-import VueRouter from 'vue-router' //navegacao
-import { routes } from './routes'; //rotas para navegacao
 import store from './store' //vuex, gerenciamento global de estado
 import AsyncComputed from 'vue-async-computed' //Para permtir computed properties assíncronas
+import {router, routes} from './routes.js' //vuerouter navegacao no lado do cliente
 
-Vue.use(BootstrapVue)
+//Vue.use(BootstrapVue)
 Vue.use(VueResource)
-Vue.use(VueRouter)
 Vue.use(AsyncComputed)
-
-const router = new VueRouter({ routes});
 
 //impede acesso direto aos endpoints que requerem acesso identificado - routeGuard
 manageProtectedEndPoints()
@@ -41,7 +37,6 @@ function atualizarStatePeloLocalStorage() {
   const userString = localStorage.getItem(store.getters.cookieName)
   if (userString) {
     const userData = JSON.parse(userString)
-    console.log('refazendo dados do usuario', userData)
     store.dispatch('ActionSetUser', userData)
   }
 }

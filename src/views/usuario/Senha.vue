@@ -64,7 +64,6 @@
         },
         methods: {
             mudarSenha(){
-                console.log(this.usuario)
                 let formValid = this.$refs.form.validate()
                 if (!formValid){ 
                     return

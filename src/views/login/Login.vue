@@ -35,7 +35,7 @@
 
 <script>
   import {mapActions} from 'vuex'
-  import { routes } from '../../routes.js'
+  import { routes, obterRota } from '../../routes.js'
   import {recuperarSenha} from '../../services/Autenticador'
 
   export default {
@@ -57,7 +57,7 @@
       login(){
         this.alerta = ''
         this.ActionLogin(this.credencial).then((response) => {
-          this.$router.push(obterRota('Noticias'))
+          this.$router.push(obterRota('Home'))
         }).catch (error => {
           console.log('Error: ', error)
           this.alerta = error.body.error
@@ -86,18 +86,12 @@
         })
       },      
       registrar(){
-        console.log('Registrar')
         this.$router.push(obterRota('Registrar'))
         /*this.alerta = "Funcionalidade em desenvolvimento"
         this.tipoAlerta = "info"
         this.mostrarAlerta = true*/
       }
     }
-  }
-  
-  
-  function obterRota(nome){
-    return routes.filter(router => router.name == nome)[0]
   }
 
 </script>

@@ -3,6 +3,9 @@
     <p style="color: red; height: absolut;" >
         {{ mensageDeErro }}
     </p>
+    <v-alert :type="tipoAlertaGeral" dense text dismissible v-model="mostrarAlertaGeral">
+        {{alertaGeral}}
+    </v-alert>    
     <v-card-title>
       <v-spacer></v-spacer>
       <v-text-field
@@ -17,15 +20,10 @@
         class="mt-10"
         :loading="loading"
       :headers="colunas"
-      :items="noticiaisAdaptadas"
-      hide-default-header
-      show-expand
-      :expanded.sync="linhasExpandidas"
-      item-key="titulo"
-      sort-by="dataPublicacao"
+      :items="noticias"
+      item-key="id"
+      sort-by="datapublicacao"
       :sort-desc="true"
-      single-expand
-      @click="marcarLidas"
       :footer-props="{
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
@@ -33,33 +31,94 @@
         prevIcon: 'mdi-arrow-left',
         nextIcon: 'mdi-arrow-right'}"
       :search="busca">
-        <template #item.titulo="{item}">{{item.dataPublicacao}} - {{item.titulo}}</template>
-        <template #item.lida="{item}">
-            <div class="green--text" v-show=item.lida icon="check">
-                Lida
-            </div>
+
+        <template v-slot:top>
+        <v-toolbar flat color="white">
+            <v-divider
+            class="mx-4"
+            inset
+            vertical
+            ></v-divider>
+            <v-spacer></v-spacer>
+            <v-dialog v-model="dialog" max-width="800px" height="1000px" scrollable>
+                <template v-slot:activator="{ on }">
+                    <v-btn color="primary" dark class="mb-2" v-on="on" @click="initiateDialog">Adicionar</v-btn>
+
+                </template>
+                <v-card>
+                    <v-card-title>
+                    <span class="headline">{{tituloDialog}}</span>
+                    </v-card-title>
+
+                    <v-card-text>
+                        <v-alert :type="tipoAlerta" dense text dismissible v-model="mostrarAlerta">
+                            {{alerta}}
+                        </v-alert>
+                        <v-container>
+                            <v-form ref="form">
+                            <v-row>
+                            <v-col>
+                                <v-text-field v-model="editedItem.titulo" label="Título" :rules="regrasTitulo"></v-text-field>
+                            </v-col>
+                            </v-row>
+                            <v-row>
+                            <v-col>
+                                <v-textarea v-model="editedItem.conteudo" label="Conteúdo" :rules="regrasConteudo"></v-textarea>
+                            </v-col>
+                            </v-row>
+                            </v-form>
+                        </v-container>
+                    </v-card-text>
+
+                    <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" text @click="fechar">Fechar</v-btn>
+                    <v-btn color="blue darken-1" text @click="salvar">Salvar</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-toolbar>
         </template>
-        <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">{{ item.conteudo }}</td>
+        <template #item.actions="{item}">
+            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
         </template>
     </v-data-table>
 </v-card>
 </template>
 
 <script>
-    import {listarNoticias, listarColunasNoticias} from "../../services/Noticias.js"
+    import {listarNoticias, listarColunasNoticiasCrud, salvarNoticia, apagarNoticia} from "../../services/Noticias.js"
     import { routes } from '../../routes.js'
 
     export default {
         data() {
             return {
-                //noticias: [],
+                dialog: false,
                 mensageDeErro: '',
                 busca: '',
                 noticias: [],
                 loading: true,
                 linhasExpandidas: [],
-                noticiasLidas: []
+                noticiasLidas: [],
+                editedItem: {
+                    id: null,
+                    datapublicacao: '',
+                    titulo: '',
+                    conteudo: '',
+                },
+                regrasTitulo:[
+                    valor => !!valor || 'Título deve ser preenchido'
+                ],
+                regrasConteudo:[
+                    valor => !!valor || 'Conteúdo deve ser preenchido'
+                ],
+                mostrarAlerta: false,
+                alerta: '',
+                tipoAlerta: 'error',
+                mostrarAlertaGeral: false,
+                alertaGeral: '',
+                tipoAlertaGeral: 'error'                
             }
         },
         created () {
@@ -72,47 +131,84 @@
         },
         computed: {
             colunas(){
-                return listarColunasNoticias()
+                return listarColunasNoticiasCrud()
             },
-            noticiaisAdaptadas(){
-                if (this.noticias){
-                    return this.noticias.map( (noticia) => {
-                        let lida = false
-                        let noticiasExpandidas = this.linhasExpandidas.filter((linha => linha.titulo === noticia.titulo))
-                        if (noticiasExpandidas.length > 0){
-                            this.noticiasLidas.push(noticia)
-                        }
-                        else{
-                            noticiasExpandidas = this.noticiasLidas.filter((linha) => linha.titulo == noticia.titulo)
-                        }
-                        return {...noticia, lida: noticiasExpandidas.length > 0}
-                    })
-                }
-                else{
-                    return this.noticias
-                }
+            tituloDialog (){
+                return this.editedItem.id ? 'Editando notícia' : 'Nova notícia'
             }
         },
         methods: {
+            initiateDialog(){
+                if (this.$refs.form){
+                    this.$refs.form.reset()
+                }
+                this.alerta = ''
+                this.mostrarAlerta = false
+            },
             atualizarNoticias() {
-                console.log('atualizando noticias')
                 listarNoticias().then((response) => {
                         this.noticias = response.data.noticias
                         this.loading = false
-                        //console.log('noticias: ', this.noticias)
                     }).catch((error) => {
+                        console.log('Deu erro ao atualizar noticias', error)
                         this.loading = false
                         this.mensageDeErro = error.body
                         if (this.mensageDeErro === 'invalid_token'){
-                            //this.$router.push(obterRota('Entrar'))
                             this.$store.dispatch('ActionLogout')
                         }
-                        //console.log('erro: ', error)
                     })
             },
-            marcarLidas(){
-                console.log('Marcar lidas', this.linhasExpandidas)
-            }
+            editItem (item) {
+                this.editedItem = Object.assign({}, item)
+                this.dialog = true
+            },
+
+            deleteItem (item) {
+                const index = this.noticias.indexOf(item)
+                confirm('Tem certeza que deseja excluir essa notícia?') && 
+                apagarNoticia(item).then((response) => {
+                    this.alertaGeral = response.body.mensagem
+                    this.mostrarAlertaGeral = true
+                    this.tipoAlertaGeral = 'success'    
+                    let index = this.noticias.indexOf(item)
+                    this.noticias.splice(index, 1)
+                }).catch(error => {
+                    this.alertaGeral = error.body.error
+                    this.mostrarAlertaGeral = true
+                    this.tipoAlertaGeral = 'error'
+                })               
+            },            
+            fechar () {
+                this.dialog = false
+                this.editedItem = {
+                    id: null,
+                    datapublicacao: '',
+                    titulo: '',
+                    conteudo: '',
+                }
+            },
+            salvar () {
+                let formValid = this.$refs.form.validate()
+                if (!formValid){ 
+                    return
+                }
+                salvarNoticia(this.editedItem).then((response) => {
+                    this.alerta = response.body.mensagem
+                    this.mostrarAlerta = true
+                    this.tipoAlerta = 'success'    
+                    this.editedItem = response.body.noticia
+                    if (this.editedItem.id){
+                        let noticiaNaLista = this.noticias.filter(item => item.id == this.editedItem.id)
+                        let indexOf = this.noticias.indexOf(noticiaNaLista)
+                        this.noticias.splice(indexOf, 1)
+                    }
+                    this.noticias.push(this.editedItem)
+                }).catch(error => {
+                    this.alerta = error.body.error
+                    this.mostrarAlerta = true
+                    this.tipoAlerta = 'error'
+                })               
+            },
         }
     }
 
@@ -128,9 +224,6 @@
                         console.log('erro: ', error)
                     })
     }*/
-    function obterRota(nome){
-        return routes.filter(router => router.name == nome)[0]
-    }
 </script>
 
 <style  scoped>

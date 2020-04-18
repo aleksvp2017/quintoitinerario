@@ -4,11 +4,9 @@ import Vue from 'vue' //core do vue
 
 //ao chamar a action, so passa o parametro / payload, context é passado automaticamente
 export const ActionSetUser = (context, payload) => {
-    console.log('ActionSetUser', payload)
     context.commit(types.SET_USER, payload) //atualiza state com dados
     localStorage.setItem(context.getters.cookieName, JSON.stringify(payload)) //cria o cookie
     Vue.http.interceptors.push((request, next) => { //sempre colocar no header o token
-        console.log('Atualizou token no header', payload.token)
         request.headers.set('Authorization', 'Bearer ' + payload.token)
         request.headers.set('Accept', 'application/json')
         next()
@@ -18,7 +16,6 @@ export const ActionSetUser = (context, payload) => {
 //chama o endpoint de autenticacao, depois o action para setar dados do usuario
 //detalhe, retorna uma Promisse a ser invocada, para que possa ser tratada por quem a chamou
 export const ActionLogin = (context, payload) => {
-    console.log('actionlogin', payload)
     return login(payload).then(res => {
         context.dispatch('ActionSetUser', res.data.usuario)
     })

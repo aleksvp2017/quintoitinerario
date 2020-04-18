@@ -80,13 +80,10 @@
                 if (!formValid){ 
                     return
                 }
-                console.log(formValid)
-                console.log('Registrando usuario', this.usuario)
                 registrar(this.usuario).then((response) => {
                     this.alerta = response.body.mensagem
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'info'                    
-                    console.log('Response:', response)
                 }).catch(error => {
                     this.alerta = error.body.error
                     this.mostrarAlerta = true
