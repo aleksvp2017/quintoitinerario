@@ -44,7 +44,8 @@
 
 <script>
     import {listarUfs} from '../../services/Geo.js'
-    import {registrar} from '../../services/Registrar'
+    import {registrar} from '../../services/Usuario'
+    import {enviarMensagem} from '../../services/Mensagem'
 
     export default {
         data(){
@@ -81,9 +82,12 @@
                     return
                 }
                 registrar(this.usuario).then((response) => {
-                    this.alerta = response.body.mensagem
+                    this.alerta = response.body.mensagem + '. Clique em entrar para acessar a plataforma.'
                     this.mostrarAlerta = true
-                    this.tipoAlerta = 'info'                    
+                    this.tipoAlerta = 'info'   
+                    enviarMensagem('Registro na Plataforma do Quinto Itinerário', 
+                        'Esse e-mail foi utilizado para registro na plataforma do 5º Itinerário.'+
+                        'Caso não tenha sido você, responda esse email com a palavra cancelar.', this.usuario.email)                 
                 }).catch(error => {
                     this.alerta = error.body.error
                     this.mostrarAlerta = true

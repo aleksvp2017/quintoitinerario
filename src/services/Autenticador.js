@@ -9,7 +9,7 @@ const http = Vue.http
 async function login(credencial){
     let senhaHash = encripta(credencial.senha)
 
-    return  http.post(BASE_BACKEND_URL + 'login', {usuario: credencial.email, senha: senhaHash})
+    return  http.post(BASE_BACKEND_URL + 'login', {usuario: { email: credencial.email, senha: senhaHash}})
 }
 
 async function recuperarSenha(email){

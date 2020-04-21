@@ -2,7 +2,6 @@ import VueRouter from 'vue-router' //navegacao
 import Vue from 'vue' //core do vue
 import Bemvindo from './views/bemvindo/Bemvindo.vue';
 import Login from './views/login/Login.vue';
-import RecuperarSenha from './views/login/RecuperarSenha.vue';
 import Noticias from './views/noticias/Noticias.vue'
 import Registrar from './views/registrar/Registrar.vue'
 import Cursos from './views/cursos/Cursos.vue'
@@ -14,7 +13,6 @@ import Home from './views/bemvindo/Home.vue';
 const routes = [
 
    { path: '/', name: 'Início', component: Bemvindo, menuItem: true, alwaysShow: true},
-   { path: '/recuperarsenha', name: 'RecuperarSenha', component: RecuperarSenha, menuItem: false },
    { path: '/entrar', name: 'Entrar', component: Login, menuItem: true },
    { path: '/home', name: 'Home', component: Home, requireAuth:true, menuItem: false },
    { path: '/noticias', name: 'Noticias', component: Noticias, requireAuth:true, menuItem: true },

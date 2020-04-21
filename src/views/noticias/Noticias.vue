@@ -142,8 +142,13 @@
                 if (this.$refs.form){
                     this.$refs.form.reset()
                 }
-                this.alerta = ''
-                this.mostrarAlerta = false
+                limparAlerta(this)
+                this.editedItem = {
+                    id: null,
+                    datapublicacao: '',
+                    titulo: '',
+                    conteudo: '',
+                }
             },
             atualizarNoticias() {
                 listarNoticias().then((response) => {
@@ -159,6 +164,7 @@
                     })
             },
             editItem (item) {
+                limparAlerta(this)
                 this.editedItem = Object.assign({}, item)
                 this.dialog = true
             },
@@ -196,13 +202,18 @@
                     this.alerta = response.body.mensagem
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'success'    
-                    this.editedItem = response.body.noticia
                     if (this.editedItem.id){
-                        let noticiaNaLista = this.noticias.filter(item => item.id == this.editedItem.id)
-                        let indexOf = this.noticias.indexOf(noticiaNaLista)
+                        let indexOf = -1
+                        this.noticias.map((item, index) => {
+                            if (item.id == this.editedItem.id) {
+                                indexOf = index
+                            }
+                        })
                         this.noticias.splice(indexOf, 1)
                     }
+                    this.editedItem = response.body.noticia
                     this.noticias.push(this.editedItem)
+                    console.log('Noticias depois do push', this.noticias)
                 }).catch(error => {
                     this.alerta = error.body.error
                     this.mostrarAlerta = true
@@ -224,6 +235,10 @@
                         console.log('erro: ', error)
                     })
     }*/
+    function limparAlerta(owner){
+        owner.alerta = ''
+        owner.mostrarAlerta = false
+    }
 </script>
 
 <style  scoped>

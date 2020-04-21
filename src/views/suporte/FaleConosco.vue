@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import {enviarMensagem} from '../../services/Mensagem'
+    import {enviarFaleConosco} from '../../services/Mensagem'
 
     export default {
         data(){
@@ -49,7 +49,7 @@
                 if (!formValid){ 
                     return
                 }
-                enviarMensagem(this.mensagem).then((response) => {
+                enviarFaleConosco(this.mensagem).then((response) => {
                     this.alerta = response.body.mensagem
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'info'                    
