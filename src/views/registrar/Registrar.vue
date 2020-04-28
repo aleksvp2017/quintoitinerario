@@ -46,6 +46,7 @@
     import {listarUfs} from '../../services/Geo.js'
     import {registrar} from '../../services/Usuario'
     import {enviarMensagem} from '../../services/Mensagem'
+    import Validator from 'validator'
 
     export default {
         data(){
@@ -56,7 +57,8 @@
                     valor => !!valor || 'Nome deve ser preenchido'
                 ],
                 regrasEmail: [
-                    valor => !! valor || 'E-mail deve ser preenchido'
+                    valor => !! valor || 'E-mail deve ser preenchido',
+                    valor => !! Validator.isEmail(valor) || 'Não é um email válido'
                 ],
                 termos: false,
                 regrasTermos: [
