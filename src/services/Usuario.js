@@ -22,7 +22,7 @@ async function alterarUsuario(usuario){
 }
 
 async function excluirUsuario(usuario){
-    return  http.delete(BASE_BACKEND_URL + 'usuarios/:' + usuario.id, {usuario})
+    return  http.delete(BASE_BACKEND_URL + 'usuarios/' + usuario.usuarioid)
 }
 
 async function registrar(usuario){

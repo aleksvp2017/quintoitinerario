@@ -51,11 +51,11 @@ async function listarNoticias(){
 }
 
 async function salvarNoticia(noticia){
-    return http.post(BASE_BACKEND_URL + 'noticias/' + (noticia.id ? (':' + noticia.id) : ''), {noticia})
+    return http.post(BASE_BACKEND_URL + 'noticias/' + (noticia.noticiaid ? (':' + noticia.noticiaid) : ''), {noticia})
 }
 
 async function apagarNoticia(noticia){
-    return http.delete(`${BASE_BACKEND_URL}noticias/:${noticia.id}`, {noticia})
+    return  http.delete(BASE_BACKEND_URL + 'noticias/' + noticia.noticiaid)
 }
 
 export {

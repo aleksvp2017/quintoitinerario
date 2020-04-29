@@ -79,6 +79,9 @@
             </v-dialog>
         </v-toolbar>
         </template>
+        <template #item.datapublicacao="{item}">
+                {{item.datapublicacaoformatada}}
+        </template>
         <template #item.actions="{item}">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
@@ -90,6 +93,7 @@
 <script>
     import {listarNoticias, listarColunasNoticiasCrud, salvarNoticia, apagarNoticia} from "../../services/Noticias.js"
     import { routes } from '../../routes.js'
+    import moment  from 'moment'
 
     export default {
         data() {
@@ -102,7 +106,7 @@
                 linhasExpandidas: [],
                 noticiasLidas: [],
                 editedItem: {
-                    id: null,
+                    noticiaid: null,
                     datapublicacao: '',
                     titulo: '',
                     conteudo: '',
@@ -134,7 +138,7 @@
                 return listarColunasNoticiasCrud()
             },
             tituloDialog (){
-                return this.editedItem.id ? 'Editando notícia' : 'Nova notícia'
+                return this.editedItem.noticiaid ? 'Editando notícia' : 'Nova notícia'
             }
         },
         methods: {
@@ -153,6 +157,8 @@
             atualizarNoticias() {
                 listarNoticias().then((response) => {
                         this.noticias = response.data.noticias
+                        this.noticias = this.noticias.map((noticia) => 
+                            ({...noticia, datapublicacaoformatada: moment().format("DD/MM/YYYY")}))
                         this.loading = false
                     }).catch((error) => {
                         console.log('Deu erro ao atualizar noticias', error)
@@ -202,14 +208,15 @@
                     this.alerta = response.body.mensagem
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'success'    
-                    if (this.editedItem.id){
-                        let indexOf = -1
-                        this.noticias.map((item, index) => {
-                            if (item.id == this.editedItem.id) {
-                                indexOf = index
-                            }
-                        })
-                        this.noticias.splice(indexOf, 1)
+                    if (this.editedItem.noticiaid){
+                        this.noticias = this.noticias.filter((noticia) => noticia.noticiaid != this.editedItem.noticiaid)
+                        // let indexOf = -1
+                        // this.noticias.map((item, index) => {
+                        //     if (item.id == this.editedItem.id) {
+                        //         indexOf = index
+                        //     }
+                        // })
+                        // this.noticias.splice(indexOf, 1)
                     }
                     this.editedItem = response.body.noticia
                     this.noticias.push(this.editedItem)
