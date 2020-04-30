@@ -1,4 +1,4 @@
-const BASE_BACKEND_URL='http://quinto-itinerario-backend.herokuapp.com/'
+const BASE_BACKEND_URL='https://quinto-itinerario-backend.herokuapp.com/'
 const FALE_CONOSCO_EMAIL='aleksvp@gmail.com'
 
 export {
