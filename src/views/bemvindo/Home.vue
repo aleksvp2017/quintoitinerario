@@ -32,7 +32,7 @@
         prevIcon: 'mdi-arrow-left',
         nextIcon: 'mdi-arrow-right'}"
       :search="busca">
-        <template #item.titulo="{item}">{{item.dataPublicacao}} - {{item.titulo}}</template>
+        <template #item.titulo="{item}">{{item.titulo}}</template>
         <template #item.lida="{item}">
             <div class="green--text" v-show=item.lida icon="check">
                 Lida

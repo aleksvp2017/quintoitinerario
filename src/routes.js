@@ -1,14 +1,15 @@
 import VueRouter from 'vue-router' //navegacao
 import Vue from 'vue' //core do vue
-import Bemvindo from './views/bemvindo/Bemvindo.vue';
-import Login from './views/login/Login.vue';
+import Bemvindo from './views/bemvindo/Bemvindo.vue'
+import Login from './views/login/Login.vue'
 import Noticias from './views/noticias/Noticias.vue'
 import Registrar from './views/registrar/Registrar.vue'
 import Cursos from './views/cursos/Cursos.vue'
 import Usuario from './views/usuario/Usuario.vue'
 import FaleConosco from './views/suporte/FaleConosco.vue'
 import Senha from './views/usuario/Senha.vue'
-import Home from './views/bemvindo/Home.vue';
+import Home from './views/bemvindo/Home.vue'
+import Vagas from './views/vagas/Vagas.vue'
 
 const routes = [
 
@@ -20,7 +21,8 @@ const routes = [
    { path: '/cursos', name: 'Cursos', component: Cursos, requireAuth: true, menuItem: true},
    { path: '/usuario', name: 'Usuário', component: Usuario, requireAuth: true, menuItem: false},
    { path: '/faleconosco', name: 'Fale Conosco', component: FaleConosco, requireAuth: true, menuItem: true},
-   { path: '/alterarsenha', name: 'Alterar Senha', component: Senha, requireAuth: true, menuItem: false}
+   { path: '/alterarsenha', name: 'Alterar Senha', component: Senha, requireAuth: true, menuItem: false},
+   { path: '/vagas', name: 'Vagas', component: Vagas, requireAuth:true, menuItem: true }
    //{ path: '/', name: 'Cursos', component: Cursos, menuItem: false}
 
 ];
