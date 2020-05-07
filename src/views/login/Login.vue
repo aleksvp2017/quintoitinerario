@@ -74,7 +74,7 @@
         }
         this.loading = true
         recuperarSenha(this.credencial.email).then(response => {
-          this.alerta = response.body.mensagem
+          this.alerta = response.body.message
           this.tipoAlerta = 'info'
           this.mostrarAlerta = true        
           this.loading = false

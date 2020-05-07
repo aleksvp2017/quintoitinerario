@@ -84,7 +84,7 @@
                     return
                 }
                 registrar(this.usuario).then((response) => {
-                    this.alerta = response.body.mensagem + '. Clique em entrar para acessar a plataforma.'
+                    this.alerta = response.body.message + '. Clique em entrar para acessar a plataforma.'
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'info'   
                     enviarMensagem('Registro na Plataforma do Quinto Itinerário', 

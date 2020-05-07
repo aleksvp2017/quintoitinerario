@@ -179,7 +179,7 @@
                 const index = this.noticias.indexOf(item)
                 confirm('Tem certeza que deseja excluir essa notícia?') && 
                 apagarNoticia(item).then((response) => {
-                    this.alertaGeral = response.body.mensagem
+                    this.alertaGeral = response.body.message
                     this.mostrarAlertaGeral = true
                     this.tipoAlertaGeral = 'success'    
                     let index = this.noticias.indexOf(item)
@@ -205,7 +205,7 @@
                     return
                 }
                 salvarNoticia(this.editedItem).then((response) => {
-                    this.alerta = response.body.mensagem
+                    this.alerta = response.body.message
                     this.mostrarAlerta = true
                     this.tipoAlerta = 'success'    
                     if (this.editedItem.noticiaid){
