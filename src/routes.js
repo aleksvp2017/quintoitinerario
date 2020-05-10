@@ -13,7 +13,7 @@ import Vagas from './views/vagas/Vagas.vue'
 
 const routes = [
 
-   { path: '/', name: 'Início', component: Bemvindo, menuItem: true, alwaysShow: true},
+   { path: '/', name: 'Início', component: Bemvindo, menuItem: false, alwaysShow: false},
    { path: '/entrar', name: 'Entrar', component: Login, menuItem: true },
    { path: '/home', name: 'Home', component: Home, requireAuth:true, menuItem: false },
    { path: '/noticias', name: 'Noticias', component: Noticias, requireAuth:true, menuItem: true },

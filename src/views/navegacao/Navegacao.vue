@@ -6,7 +6,7 @@
                     <v-btn color="primary" dark elevation="0" :to="rotaHome">
                         <v-icon dark right>mdi-home</v-icon>
                     </v-btn> 
-                    Plataforma do 5º Itinerário
+                    Playground
                 </h2>
             </v-toolbar-title>
             <v-spacer></v-spacer>
