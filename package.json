@@ -27,7 +27,7 @@
     "nodemon": "^2.0.2",
     "parser": "^0.1.4",
     "sass": "^1.26.3",
-    "validator": "^13.0.0",
+    "validator": "^13.7.0",
     "vue": "^2.6.11",
     "vue-async-computed": "^3.8.2",
     "vue-resource": "^1.5.1",
